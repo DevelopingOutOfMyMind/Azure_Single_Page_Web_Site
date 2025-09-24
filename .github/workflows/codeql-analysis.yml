@@ -74,7 +74,8 @@ jobs:
 
     - name: Run unit tests
       run: |
-        dotnet test --no-build --configuration Release --logger "trx;LogFileName=test-results.trx"
+        mkdir -p test-results
+        dotnet test --no-build --configuration Release --logger "trx;LogFileName=test-results.trx" --results-directory ./test-results
       continue-on-error: false
       # Upload test results would normally be done here with actions/upload-artifact
 
@@ -84,7 +85,7 @@ jobs:
       with:
         name: test-results
         path: |
-          **/test-results.trx
+          test-results/**/*.trx
 
     - name: Perform CodeQL Analysis
       uses: github/codeql-action/analyze@v3
