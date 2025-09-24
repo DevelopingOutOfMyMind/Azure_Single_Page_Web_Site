@@ -7,8 +7,8 @@
   </PropertyGroup>
 
   <ItemGroup>
-    <!-- Pattern for test projects to run during manual build -->
-    <TestProjects Include="**\*.Tests.csproj" />
+    <!-- Pattern for test projects to run during manual build (rooted at the repo root) -->
+    <TestProjects Include="$(MSBuildThisFileDirectory)**\*.Tests.csproj" />
   </ItemGroup>
 
   <Target Name="RunUnitTests" AfterTargets="Build" Condition=" '$(RunUnitTestsOnBuild)' == 'true' ">
