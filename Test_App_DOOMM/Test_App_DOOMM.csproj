@@ -12,7 +12,6 @@
   </ItemGroup>
 
   <ItemGroup>
-    <ProjectReference Include="Test_App_DOOMM.csproj" />
   </ItemGroup>
 
 </Project>
