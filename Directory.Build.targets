@@ -1,0 +1,22 @@
+<Project>
+    <PropertyGroup>
+    <!-- Set to true to run unit tests automatically after a manual "dotnet build" -->
+    <RunUnitTestsOnBuild Condition=" '$(RunUnitTestsOnBuild)' == '' ">false</RunUnitTestsOnBuild>
+    <!-- Directory where test results will be written when tests run during manual build. Use the directory containing this file (repo root) -->
+    <ManualBuildTestResultsDir>$(MSBuildThisFileDirectory)test-results</ManualBuildTestResultsDir>
+  </PropertyGroup>
+
+  <ItemGroup>
+    <!-- Pattern for test projects to run during manual build -->
+    <TestProjects Include="**\*.Tests.csproj" />
+  </ItemGroup>
+
+  <Target Name="RunUnitTests" AfterTargets="Build" Condition=" '$(RunUnitTestsOnBuild)' == 'true' ">
+    <Message Text="[Directory.Build.targets] RunUnitTestsOnBuild=true, executing unit tests from repo root..." Importance="high" />
+    <Message Text="[Directory.Build.targets] Test results directory: $(ManualBuildTestResultsDir)" Importance="normal" />
+    <MakeDir Directories="$(ManualBuildTestResultsDir)" />
+
+    <!-- Execute dotnet test for each discovered test project. Run from repo root so relative paths resolve consistently. -->
+    <Exec Command="dotnet test &quot;%(TestProjects.Identity)&quot; --configuration $(Configuration) --logger \"trx;LogFileName=%(TestProjects.Filename)-results.trx\" --results-directory &quot;$(ManualBuildTestResultsDir)&quot;" WorkingDirectory="$(MSBuildThisFileDirectory)" />
+  </Target>
+</Project>
