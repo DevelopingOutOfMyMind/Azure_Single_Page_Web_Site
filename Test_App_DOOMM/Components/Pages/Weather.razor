@@ -1,0 +1,64 @@
+@page "/weather"
+@using Test_App_DOOMM.Models
+@using Test_App_DOOMM.Services
+@inject WeatherService WeatherSvc
+
+<PageTitle>Weather Forecast</PageTitle>
+
+<h1>Weather Forecast</h1>
+
+<p>This component demonstrates fetching data from a remote API.</p>
+<p>Showing weather for zip code <strong>33558</strong>.</p>
+
+@if (forecasts == null && errorMessage == null)
+{
+    <p><em>Loading...</em></p>
+}
+else if (errorMessage != null)
+{
+    <div class="alert alert-danger" role="alert">
+        <p>Sorry, there was an error fetching the weather data:</p>
+        <p>@errorMessage</p>
+    </div>
+}
+else
+{
+    <table class="table">
+        <thead>
+            <tr>
+                <th>Time</th>
+                <th>Temp.</th>
+                <th>Forecast</th>
+                <th>Wind</th>
+            </tr>
+        </thead>
+        <tbody>
+            @foreach (var forecast in forecasts!)
+            {
+                <tr>
+                    <td>@forecast.Name</td>
+                    <td>@forecast.Temperature&deg;@forecast.TemperatureUnit</td>
+                    <td>@forecast.ShortForecast</td>
+                    <td>@forecast.WindSpeed @forecast.WindDirection</td>
+                </tr>
+            }
+        </tbody>
+    </table>
+}
+
+@code {
+    private ForecastPeriod[]? forecasts;
+    private string? errorMessage;
+
+    protected override async Task OnInitializedAsync()
+    {
+        try
+        {
+            forecasts = await WeatherSvc.GetWeatherForZipAsync("33558");
+        }
+        catch (Exception ex)
+        {
+            errorMessage = ex.Message;
+        }
+    }
+}
