@@ -17,6 +17,6 @@
     <MakeDir Directories="$(ManualBuildTestResultsDir)" />
 
     <!-- Execute dotnet test for each discovered test project. Run from repo root so relative paths resolve consistently. -->
-    <Exec Command="dotnet test &quot;%(TestProjects.Identity)&quot; --configuration $(Configuration) --logger \"trx;LogFileName=%(TestProjects.Filename)-results.trx\" --results-directory &quot;$(ManualBuildTestResultsDir)&quot;" WorkingDirectory="$(MSBuildThisFileDirectory)" />
+  <Exec Command="dotnet test &quot;%(TestProjects.Identity)&quot; --configuration $(Configuration) --logger &quot;trx;LogFileName=%(TestProjects.Filename)-results.trx&quot; --results-directory &quot;$(ManualBuildTestResultsDir)&quot;" WorkingDirectory="$(MSBuildThisFileDirectory)" />
   </Target>
 </Project>
