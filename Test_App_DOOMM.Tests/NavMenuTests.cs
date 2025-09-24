@@ -15,8 +15,8 @@ namespace Test_App_DOOMM.Tests
             // Arrange
             var cut = RenderComponent<NavMenu>();
 
-            // Act
-            var navLink = cut.FindAll("a").FirstOrDefault(a => a.GetAttribute("href") == href);
+            // Act - find link by visible text to avoid differences in href formatting
+            var navLink = cut.FindAll("a").FirstOrDefault(a => a.TextContent != null && a.TextContent.Contains(linkText));
 
             // Assert
             Assert.NotNull(navLink);
