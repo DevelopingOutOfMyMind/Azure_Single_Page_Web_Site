@@ -1,0 +1,35 @@
+@page "/catfacts"
+@using Microsoft.AspNetCore.Components.Web
+@using Test_App_DOOMM.Models
+@using Test_App_DOOMM.Services
+@inject CatFactService CatSvc
+
+<PageTitle>Cat Facts</PageTitle>
+
+<h1>Random Cat Fact</h1>
+
+@if (fact == null)
+{
+    <p><em>Loading...</em></p>
+}
+else
+{
+    <blockquote>@fact.Fact</blockquote>
+    <p><small>Length: @fact.Length</small></p>
+}
+
+<button class="btn btn-primary" @onclick="GetFact">Get another fact</button>
+
+@code {
+    private CatFact? fact;
+
+    protected override async Task OnInitializedAsync()
+    {
+        await GetFact();
+    }
+
+    private async Task GetFact()
+    {
+        fact = await CatSvc.GetRandomFactAsync();
+    }
+}
